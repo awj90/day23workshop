@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order Details</title>
+  </head>
+  <body>
+    <h1>Order Details</h1>
+    <form>
+      <label>Order Id:</label>
+      <input
+        type="num"
+        id="orderId"
+        name="orderId"
+        placeholder="Enter your order id"
+      />
+      <button type="button" onclick="getOrderDetails()">
+        Get Order Details!</button
+      ><br /><br />
+      <div id="results"></div>
+    </form>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script>
+      function getOrderDetails() {
+        let orderId = document.getElementById("orderId").value;
+        $.ajax({
+          url: "/order/total/" + orderId,
+          success: function (data) {
+            $("#results").html(`
+                        <span>Order Id : ${data.order_id} </span><br>
+                        <span>Order Date : ${data.order_date} </span><br>
+                        <span>Customer Id : ${data.customer_id} </span><br>
+                        <span>Total Price : ${data.total_price} </span><br>
+                        <span>Cost Price : ${data.cost_price} </span><br><br>
+                        <a href="/">Back</a>
+                        `);
+          },
+          error: function (e, status, error) {
+            $("#results").html(`<span> Order id not found </span><br><br>
+                                <a href="/">Back</a>`);
+          },
+        });
+      }
+    </script>
+  </body>
+</html>
